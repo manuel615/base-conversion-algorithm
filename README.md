@@ -43,7 +43,6 @@ For questions or comments regarding these codes, feel free to contact me at [man
 
 Thank you for using these codes!
 
----
 
 ITALIANO
 
