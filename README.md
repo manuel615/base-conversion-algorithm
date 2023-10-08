@@ -1,10 +1,9 @@
 # base-conversion-algorithm
 I created this MATLAB program during my University of Ferrara numerical computing course. It converts real numbers between bases 2-36, purely for educational purposes. Heavily inspired by our associate professor's published solution.
 
-ENGLISH
-
 ---
 
+ENGLISH
 ## Description of Codes
 
 This repository contains a series of MATLAB codes that allow you to perform number conversion between different bases. Below is a brief description of each file:
@@ -43,10 +42,9 @@ For questions or comments regarding these codes, feel free to contact me at [man
 
 Thank you for using these codes!
 
+---
 
 ITALIANO
-
----
 
 ## Descrizione dei Codici
 
