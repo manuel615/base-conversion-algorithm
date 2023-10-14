@@ -65,8 +65,9 @@ function [output] = convReal(number, baseA, baseB, i)
         error(['The bases must be a number within a range of 2 to 36, ' ...
             'inclusive.']);
     end
-    
-    integerPart = 0;
+
+    integerPart = '';
+    fractionalPart = '';
 
     % This if works if only the starting base is not 10. If the starting
     % base is not 10, we would have some letters that need to be 
@@ -77,7 +78,6 @@ function [output] = convReal(number, baseA, baseB, i)
         % but as a string because we may have letters in the number
         % since the starting base is different from 10.
         % fractionalPartString, instead, will store the fractional part
-
         [integerPartString, fractionaPartString] = strtok(number, '.');
 
         % integerPart will store the integer part as a decimal number,
@@ -96,30 +96,47 @@ function [output] = convReal(number, baseA, baseB, i)
         % number from base X[2, 36] to base 10
         fractionalPart = convFractFromBaseXto10(fractionaPartString, ...
             baseA);
-    end
-   
-    % This if works only if there is an integer part in the real number
-    if fix(integerPart) > 0
-
-        % Simple integer conversion from base 10 to base X [2, 36]
-        integerPart = convInt(fix(integerPart), baseB);
-    end
-    
-    % This if works only if there is a fractional part in the real number
-    if fractionalPart ~= 0
-
-        % Simple fractional conversion from base 10 to base X [2, 36].
-        % The variable 'i' is used to represent the number of digits 
-        % desired for the number
-        fractionalPart = convFract(fractionalPart, baseB, i);
-
-        output = strcat(num2str(integerPart), num2str(fractionalPart));
-    
-    % If there is no fractional part in the real number, the output 
-    % will simply be the integer part
+        
+        % If there is an integer part I call the 'convInt' function
+        if (integerPart > 0)
+            integerPart = convInt(integerPart, baseB);
+            output = integerPart;
+        end
+        
+        % If there is a fractional part I call the 'convFract' function
+        if (fractionalPart > 0)
+            fractionalPart = convFract(fractionalPart, baseB, i);
+            output = strcat('0', fractionalPart);
+        end
+        
+        % If both string vectors are non-empty, then I concatenate themlc
+        if (~isempty(integerPart) && ~isempty(fractionalPart))
+            output = strcat(integerPart, fractionalPart);
+        end
     else
-        output = integerPart;
+
+        % Entering this IF means that the number is in base 10, so it 
+        % definitely won't be composed of letters, and we can convert the 
+        % number from a string to a double
+        number = str2double(number);
+
+        % This if works only if there is an integer part in the real number
+        if (fix(number) > 0)
+            integerPart = convInt(fix(number), baseB);
+            output = integerPart;
+        end
+        
+        % This if works only if there is a fractional part in the real 
+        % number
+        if (number - fix(number) > 0)
+            fractionalPart = convFract(number - fix(number), baseB, i);            
+            output = strcat('0', fractionalPart);
+        end
+
+        % If both string vectors are non-empty, then I concatenate them
+        if (~isempty(integerPart) && ~isempty(fractionalPart))
+            output = strcat(integerPart, fractionalPart);
+        end
     end
 
 end
-
